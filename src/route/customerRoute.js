@@ -17,3 +17,4 @@ customerRouter.post('/register', async (req, res) => {
 });
 
 module.exports = customerRouter;
+// Sample commit
