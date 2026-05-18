@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const employeeSchema = new mongoose.Schema(
   {
@@ -23,6 +25,7 @@ const employeeSchema = new mongoose.Schema(
     'role': {
       type: String,
       enum: ['admin', 'supervisor', 'mechanic'],
+      required: true,
     },
     'supervisorId': {
       type: mongoose.Schema.Types.ObjectId,
@@ -35,9 +38,13 @@ const employeeSchema = new mongoose.Schema(
 
 employeeSchema.methods.getJWTToken = function () {
   const employee = this;
-  const token = jwt.sign({ id: employee._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+  const token = jwt.sign(
+    { id: employee._id, role: employee.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    },
+  );
   return token;
 };
 

@@ -22,7 +22,7 @@ const empAuthMiddleware = async (req, res, next) => {
     req.employee = employee; // Attach the employee object to the request for use in subsequent middleware or route handlers
     next();
   } catch (error) {
-    console.error('Error in auth middleware:', err);
+    console.error('Error in auth middleware:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
